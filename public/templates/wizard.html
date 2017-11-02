@@ -1,0 +1,28 @@
+
+  <div class="stay">
+      <div class="panel panel-default">
+  <div class="panel-heading topPanelFixed"><h3> <span style="float:right">IPRC EAST <a type="button" class="btn btn-sm btn-default" ui-sref="logout">
+      <em class="fa fa-lock"></em></a></span>
+  
+
+ <ul class="steps-indicator steps-{{getEnabledSteps().length}}" ng-if="!hideIndicators">
+               
+        <li ng-class="{default: !step.completed && !step.selected, current: step.selected && !step.completed, done: step.completed && !step.selected, editing: step.selected && step.completed}" ng-repeat="step in getEnabledSteps()">
+            <a ng-click="goTo(step)">
+                <em ng-class="{'fa fa-list fa-lg': step.wzTitle == 'Form', 'fa fa-file fa-lg': step.wzTitle == 'Files', 'fa fa-money fa-lg': step.wzTitle == 'Submit'}"></em> </a>
+        </li>
+    </ul>
+    </h3>
+    </div>
+    <div class="panel-body scroll">
+    <div class="steps" ng-transclude></div>
+  </div>
+  
+</div>
+   
+
+  </div>
+
+
+ 
+  

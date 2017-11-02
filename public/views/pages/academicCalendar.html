@@ -1,0 +1,100 @@
+<div class="container-fluid" style="background-color:#4ca6ff;">
+  <dl class="row" ng-hide="toggleSearch" style="margin-bottom: 0px;">
+  <dt class="col-xs-8"><h3 class="display-4">Academic Calendar</h3></dt>
+  <dd class="col-xs-4"><h3 class="display-4" style="text-align:right;">
+  <button type="button" ng-click="toggleSearch = !toggleSearch" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+  <button type="button" class="btn btn-sm btn-default" ng-click="open('addACEvent.html','lg')"><i class="fa fa-plus"></i></button>
+   <button type="button" class="btn btn-sm btn-default" ng-class="{active:mode==='month'}"
+                            ng-click="changeMode('month')">
+                        Month
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default" ng-class="{active:mode==='week'}"
+                            ng-click="changeMode('week')">
+                        Week
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default" ng-class="{active:mode==='day'}"
+                            ng-click="changeMode('day')">
+                        Day
+                    </button>
+  
+  </h3>
+</dd>
+  </dl>
+
+<dl class="row" ng-show="toggleSearch" style="margin-bottom: 13px;">
+<h3 class="display-4">
+  <dd class="col-sm-8 col-sm-offset-2">
+   <div class="input-group input-group-sm">
+        <input type="text" class="form-control" ng-model="search" placeholder="Search notices">
+        <span class="input-group-btn">
+        <button class="btn btn-default" ng-click="toggleSearch = !toggleSearch" type="button"><i class="fa fa-times"></i></button>
+      </span>
+      </div>
+</dd></h3>
+  </dl>
+</div>
+<div class="container-fluid" style="margin-top:20px;">
+ <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+                          range-changed="reloadSource(startTime, endTime)"
+                          event-selected="onEventSelected(event)"
+                          time-selected="onTimeSelected(selectedTime)"></calendar>
+</div>
+
+
+
+
+<script type="text/ng-template" id="addACEvent.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Add Academic Event</h3>
+   
+  </div>
+  <div class="modal-body" id="modal-body">
+  <form id="eventForm" ng-submit="addACEvent(event, picFile)">
+      <div class="modal-body">
+         
+        <div class="form-group row">
+            <label for="example-text-input" class="col-xs-2 col-form-label">Title</label>
+            <div class="col-xs-10">
+                <input class="form-control" type="text" ng-model="event.title" id="example-text-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-text-input" class="col-xs-2 col-form-label">Description</label>
+            <div class="col-xs-10">
+                <input class="form-control" type="text" ng-model="event.description" id="example-text-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-text-input" class="col-xs-2 col-form-label">Venue</label>
+            <div class="col-xs-10">
+                <input class="form-control" type="text" ng-model="event.venue" id="example-text-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-datetime-local-input" class="col-xs-2 col-form-label">Date and time</label>
+            <div class="col-xs-10">
+                <input class="form-control" type="datetime-local" ng-model="event.date" id="example-datetime-local-input">
+            </div>
+        </div>
+<div class="form-group row">
+      <label for="example-password-input" class="col-xs-2 col-form-label">Event Type</label>
+      <div class="col-xs-10">
+        <select class="form-control" ng-model="event.type">
+ 
+  <option value="1">Sports</option>
+  <option value="2">Education</option>
+  <option value="3">Music</option>
+</select>
+    
+      </div>
+    </div>
+     
+      </div>
+  <div class="modal-footer">
+    <button type="submit" ng-click="submit(event)" class="btn btn-sm btn-primary">Add to Calendar</button>
+    <button class="btn btn-sm btn-info" type="button" ng-click="close()">Cancel</button>
+
+  </div>
+  </form>
+
+</script>

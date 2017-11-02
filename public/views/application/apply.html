@@ -1,0 +1,165 @@
+<applicationheader></applicationheader>
+<button ng-if="scrolled" class="btn btn-primary floatBtn" ng-click="scrollTo('top')">&#8673</button>
+<div style="padding-top: 80px;" id="top"></div>
+
+<div class="jumbotron" >
+  <div class="row">
+    <p class="col-xs-3"><img src="/img/obama.png" width="90%"></p>
+    
+    <div class="col-xs-5">
+      <h1 class="text-center" style="color: darkblue;">Karibu! {{currentUser.firstname}}</h1>
+      <h2 class="text-center" style="color:green;">iKurera is a FREE to use Academic Information and Enrichment Platform that enhance learning and automates the flow of information between administration, students, applicants, 
+        teachers and parents. iKurera has been specifically designed to serve the East African Market. Learn how iKurera can help you!.<br>
+       <small class="text-center"> <a href="" ng-click="scrollTo('applicant')">Applicants</a> | <a href="" ng-click="scrollTo('student')">Students</a> | <a href="" ng-click="scrollTo('teacher')">Teachers</a> | <a href="" ng-click="scrollTo('admin')">Administrators</a></small> </h2>
+      </div>
+    
+         <div class="col-xs-3" ng-hide="collapseApp === true">
+           <h3>Request a DEMO today!.
+             <br><small>If you already have a DEMO account please <a ui-sref="login">sign in</a></small></h3>
+                    <form name="registerForm" ng-submit="register(username, firstname, lastname, password)" novalidate>
+                        <fieldset>
+                            <div ng-show="RegErrorMessage" class="alert alert-danger">{{RegErrorMessage}}</div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="E-mail " name="username" ng-model="username" type="email" required>
+                                <span style="color:red" ng-show="registerForm.username.$dirty && registerForm.username.$invalid">
+					<span ng-show="registerForm.username.$error.required">Email is required.</span>
+                                <span ng-show="registerForm.username.$error.email">Invalid email address.</span>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="First Name" name="firstname" ng-model="firstname" type="text" required>
+                                <span style="color:red" ng-show="registerForm.firstname.$dirty && registerForm.firstname.$invalid">
+					<span ng-show="registerForm.username.$error.required">First name is required.</span>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Last Name" name="lastname" ng-model="lastname" type="text" required>
+                                <span style="color:red" ng-show="registerForm.lastname.$dirty && registerForm.lastname.$invalid">
+					<span ng-show="registerForm.username.$error.required">Last name is required.</span>
+                            </div>
+                            
+                            <div class="form-group">
+                              <input class="form-control" placeholder="Company" name="company" ng-model="company" type="text" required>
+                              <span style="color:red" ng-show="registerForm.company.$dirty && registerForm.company.$invalid">
+        <span ng-show="registerForm.company.$error.required">Company is required.</span>
+                          </div>
+
+                            <button type="submit" class="btn btn-lg btn-primary" ng-disabled="registerForm.$invalid">Submit Request</button>
+                        </fieldset>
+                    </form>
+         </div>
+    
+     
+
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:10px;" id="applicant">
+       <p class="text-center"><img src="img/application.jpg" width="20%"></p>
+  <h1 class="text-center">Online Application and Registration</h1>
+      
+      <h3> Students need an easy, 
+        convenient admissions and registration process. This system helps make that possible. 
+        With IPRC East’s Online Application and Online Registration, we welcome new students with 
+        an online experience that’s intuitive and convenient. By using the Student Information System, potential students can apply 
+        and registering painlessly. Online Application speeds up communication, eases the application and submission process, 
+        and reduces the cost of application processing.</h3>
+   <p>
+
+       <h1 class="text-center"> <ul class="list-inline">
+  <li><span class="label label-primary"><em class="fa fa-list-alt fa-lg"></em> Online Application</span></li>
+    <li><span class="label label-primary"><em class="fa fa-upload fa-lg"></em> Document Upload</span></li>
+      <li><div class="label label-primary"><em class="fa fa-credit-card fa-lg"></em> Easy Bank Payments</div></li>
+</ul></h1></p>
+     
+</div>
+
+<div class="container-fluid" style="background-color: lightblue; overflow: hidden;" id="student">
+  <div class="row">
+  <p class="col-xs-4"><img src="/img/africanstudent.png" width="80%"></p>
+  <p class="col-xs-8">
+    <h1 class="display-1">For Students!</h1> <h2>Today's students are more diverse than ever before, and their needs are more complex. 
+      From admissions, registration, and curriculum management to advising and assessment, the Student Information System at IPRC East can help 
+      deliver the kinds of experiences that keep your students engaged and on track for success.</h2>
+
+        <div class="row">
+          <h2>Supports Students:</h2>
+  <div class="col-sm-3 col-md-2">
+    <div class="thumbnail">
+      <img src="img/th.jpg">
+      <div class="caption">
+        <h4>Focus on Learning</h4>
+      </div>
+    </div>
+  </div>
+   <div class="col-sm-3 col-md-2">
+    <div class="thumbnail">
+      <img src="img/untitled.png" alt="...">
+      <div class="caption">
+        <h4>Check their Progress</h4>     
+      </div>
+    </div>
+  </div>
+   <div class="col-sm-3 col-md-2">
+    <div class="thumbnail">
+      <img src="img/untitled2.png" alt="...">
+      <div class="caption">
+        <h4>Graduate on Time</h4>
+      </div>
+    </div>
+  </div>
+</div>
+    </p>
+
+    
+  </div>
+
+</div>
+
+<div class="container-fluid" style="background-color: #fee33a;" id="teacher">
+
+  <h1>Giving Teachers back their day!</h1>
+  <div class="col-lg-10 col-lg-offset-1">
+    <p>
+  <h3>The Student Information System comes with a host of features enabling teachers to reduce time spent on administrative duties so that they
+    can spend more time with students. With students to manage and lesson plans to create, the system's time-saving features means that information only has to 
+    be entered once and teachers can communicate student information in real time.
+    The system's fully integrated learning management system offers teachers and students a powerful solution that enhances blended learning programs, 
+   and ﬂipped classroom instruction.
+  </h3>
+   </p>
+   
+  <p class="col-xs-2 text-center"><img src="/img/assignment.png" width="100%"><br>Assignment<br> Management</p>
+  <p class="col-xs-2 text-center"><img src="/img/grades.png" width="100%"><br>Grading</p>
+  <p class="col-xs-2 text-center"><img src="/img/timetable.png" width="100%"><br>Timetable<br>Management</p>
+  <p class="col-xs-2 text-center"><img src="/img/course.png" width="100%"><br>Course<br>Management</p>
+  <p class="col-xs-2 text-center"><img src="/img/elearning.png" width="100%"><br>eKnowledge</p>
+   
+</div>
+
+</div>
+
+<div class="container-fluid" style=" background: url(/img/hosp.jpg);
+    background-size: cover;
+    background-repeat: no-repeat; height: 600px; overflow: hidden; " id="admin">
+    <div class="jumbotron" style=" background:transparent">
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-4">
+      <h1 class="text-center" style="color:#fee33a;">Reducing costs to help students achieve more.</h1>
+      <h2 class="text-right" style="color:white;">"The goal of any school administration is to create an efficient organization that enables students to fulfill their true potential. 
+        The Student Information System at IPRC East will empower administrators to streamline information flow to create an efficient and effective organization."
+        <p> <a class="btn btn-default btn-lg" href="iprceast.ac.rw" role="button">Visit iprceast.ac.rw</a></p>
+      </h2>
+
+    </div>
+  
+  </div></div>
+</div>
+
+<div class="container" style="height: 200px; overflow: hidden; ">
+
+ <div class="col-lg-6 col-lg-offset-3">
+  <h1 class="text-center">Send us some feedback!</h1>
+  <p class="text-center"><a href="mailto:carl.lawrence@live.com" target="_top">System Administration</a></p>
+
+ </div>
+
+</div>

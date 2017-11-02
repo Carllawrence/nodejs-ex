@@ -1,0 +1,141 @@
+<div id="printMe">
+ <div class="modal-header" >
+    <h3 class="modal-title" id="modal-title">
+        <h1 class="text-center">IPRC East Student Application Form
+           </h1>
+    <button ng-click="print()" class="btn btn-default">Print</button>
+          <h3>{{application.lastname | uppercase}}, {{application.firstname}}</h3>
+    </h3>
+   
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="row">      
+     <div class="col-lg-3"><img ng-src="img/Person-placeholder.jpg" width="170px;" style="padding: 10px;"></div>
+     <div class="col-xs-5">
+
+   <h4>Date of Birth: {{application.DOB | date}}</h4>
+   <h4>Telephone: {{application.tel}}</h4>
+   <h4>Email: {{application.email}}</h4>
+    <small>Created: {{today | date}}</small>
+   </div>
+   <div class="col-xs-4">
+<h4>Address</h4>
+        <address>
+ 
+ <abbr title="Province">Province:</abbr>{{application.address.Province}}<br>
+   <abbr title="Province">Sector:</abbr>{{application.address.Sector}}<br>
+   <abbr title="Province">Cell:</abbr> {{application.address.Cellule}}<br>
+     <abbr title="Province">Village:</abbr>{{application.address.Village}}
+  
+</address></div>
+</div>
+    
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h3>Academic Choices </h3></div>
+ <table class="table table-condensed">
+ 
+    <thead>
+      <tr>
+        <th>Department</th>
+        <th>Option</th>
+        <th>Rank</th>
+       </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in application.choice">
+        <td>{{item.DEPARTMENT}}</td>
+         <td>{{item.OPTION}}</td>
+        <td>{{application.choice.indexOf(item)+1}}</td>
+    
+      </tr>
+     
+    </tbody>
+  </table>
+
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h3 class="display-3">Refferees</h3></div>
+ <table class="table table-condensed">
+    
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Occupation</th>
+        <th>Telephone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in application.refs">
+        <td>{{item.name}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.occupation}}</td>
+        <td>{{item.tel}}</td>
+      </tr>
+     
+    </tbody>
+  </table>
+
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h3 class="display-3">Work History </h3></div>
+ <table class="table table-condensed">
+
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in application.orgs">
+        <td>{{item.name}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.start | date}}</td>
+        <td>{{item.end | date}}</td>
+      </tr>
+     
+    </tbody>
+  </table>
+
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h3 class="display-3">Academic History</h3></div>
+    <table class="table table-condensed">
+   
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Grade</th>
+        <th>Department</th>
+        <th>Exammination Authority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in application.academics">
+        <td>{{item.name}}</td>
+        <td>{{item.grade}}</td>
+        <td>{{item.dept}}</td>
+        <td>{{item.examAuth}}</td>
+      </tr>
+     
+    </tbody>
+  </table>
+
+</div>
+  </div>
+  <div class="modal-footer">
+    
+   <em>Please bring your application to IPRC East</em>
+
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="container-fluid" style="background-color:#4ca6ff;">
+  <dl class="row" style="margin-bottom: 0px;">
+    <dt class="col-xs-2">
+      <h3 class="display-4"><a ui-sref="dashboard.eproject"> &larr; all</a></h3>
+    </dt>
+    <dd class="col-xs-10">
+      <h3 class="display-4" style="text-align:right;"> Project Details
+        <button type="button" class="btn btn-sm btn-default" ng-click="projectEdit =!projectEdit"><i ng-show="!eprojectEdit" class="fa fa-pencil"></i><i ng-show="eprojectEdit" class="fa fa-ban"></i></button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="open('delProject.html','sm',currentProject._id, currentProject.title)"><i class="fa fa-trash"></i></button>
+      </h3>
+    </dd>
+  </dl>
+
+
+</div>
+
+<script type="text/ng-template" id="delProject.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Alert!</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <h5> Are you sure you want to delete <strong> {{eproject.title}}</strong>?</h5>
+
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-danger" type="button" ng-click="removeCourse()">Confirm Delete</button>
+    <button class="btn btn-sm btn-info" type="button" ng-click="close()">Cancel</button>
+
+  </div>
+</script>
+
+
+  <h3 class="text-center">
+    <img ng-src="{{currentProject.picUrl}}" width="10%;"><br> {{currentProject.studentLname | uppercase}}, {{currentProject.studentFname}}<br>
+
+    <small> {{currentProject.department | uppercase}}
+ <strong> | </strong> {{currentProject.option | uppercase}}</small></h3>
+ <div class="container-fluid" ng-show="!projectEdit">
+    
+  <hr>
+  <h4 class="text-center">{{currentProject.title}}</h4>
+  <hr>
+
+
+    <dl class="dl-horizontal">
+        <dt>Why</dt>
+        <dd>{{currentProject.why}}</dd><br>
+        <dt>How</dt>
+        <dd>{{currentProject.how}}</dd><br>
+        <dt>What</dt>
+        <dd>{{currentProject.what}}</dd>
+      </dl>  
+     </div>
+
+
+<div class="container-fluid" ng-show="projectEdit">
+    
+    <hr>
+    <h4 class="text-center"><input type="text" ng-model="currentProject.title"></h4>
+    <hr>
+  
+    <dl class="dl-horizontal">
+        <dt>Why</dt>
+        <dd><input type="text" ng-model="currentProject.why"></dd><br>
+        <dt>How</dt>
+        <dd><input type="text" ng-model="currentProject.how"></dd><br>
+        <dt>What</dt>
+        <dd><input type="text" ng-model="currentProject.what"></dd>
+      <dt></dt>
+      <dd><br>
+      <button type="button" class="btn btn-sm btn-primary" ng-click="updateProject(currentProject)">Update</button></dd>
+    </dl>  
+     </div>
+</div>
+
+<hr>
+<div class="container">
+<h4>Comments</h4>
+
+</div>
+

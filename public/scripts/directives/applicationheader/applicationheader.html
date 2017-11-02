@@ -1,0 +1,43 @@
+
+  
+<nav class="navbar navbar-default myfix" role="navigation">
+  <div class="navbar" ng-hide="scrolled" ng-if="!collapseApp">
+ <a class="navbar-brand" ui-sref="application.start">
+                <h1 class="navbar-text" style="margin-left: 20px; margin-top:5px;"><img src="img/logo.png" alt="iKurera logo" width="10%"> 
+                  <span style="color:yellow; font-weight:500;">iKurera</span>
+                </h1>
+            </a>
+  </div>
+    <div class="navbar-header"> 
+      <div ng-show="collapseApp">
+    <span class="openbtn" ng-click="openNavApp()">&#9776;</span>
+ 
+      </div>
+   <a  ng-show="scrolled === true || collapseApp === true" class="navbar-brand" ui-sref="application.start">
+            iKurera
+            </a>
+    </div>
+
+ <div id="mySidenavApp" class="sidenavApp">
+
+       <h2 class="menu-text">MENU  <span> <a href="" ng-click="closeNavApp()">&#9747;</a></span></h2>
+         
+    <ul class="nav sidetabs menu" >
+      <li><a href="#"> <i class="fa fa-book icon-style"></i> Academics</a></li>
+      <li><a href="#"><i class="fa fa-users icon-style"></i> Student Life</a></li>
+     <li><a href="#"> <i class="fa fa-building icon-style"></i> Facilities</a></li>
+    </ul>
+  </div>
+
+
+<ul ng-hide="collapseApp" >  
+      <li> <button ng-show="!currentUser" ui-sref="login" type="button" class="btn btn-default navbar-btn navbar-right"><i class="fa fa-lock fa-lg"></i></button>
+      <button ng-show="currentUser" ui-sref="logout" type="button" class="btn btn-default navbar-btn navbar-right"><i class="fa fa-unlock fa-lg"></i></button>
+      </li>
+      <li><a href="https://www.adoptitude.com" type="button" class="btn btn-default navbar-btn navbar-right"><i class="fa fa-info fa-lg"></i></a></li>
+      
+      
+    </ul>
+
+   
+  </nav>

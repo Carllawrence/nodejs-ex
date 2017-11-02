@@ -1,0 +1,504 @@
+
+<wizard on-finish="finishedWizard()" indicators-position='top' edit-mode='false' template="/templates/wizard.html"> 
+  
+    <wz-step wz-title="Form">
+      <form editable-form name="editableForm" onbeforesave="validateApplication()" onaftersave="submitApplication()" shown="true">
+       <div class="container-fluid"  print-remove>  
+     <span class="help-block"><h3>Complete all required fields as marked <em class="fa fa-asterisk red"></em>. 
+                    <span style="float:right; padding-bottom:10px;">
+            <!-- button to show form -->
+            <button type="button" class="btn btn-md btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+        <em class="fa fa-pencil"></em>
+      </button>
+            <!-- buttons to submit / cancel form -->
+            <span ng-show="editableForm.$visible">
+        <button type="submit" class="btn btn-md btn-success" ng-disabled="editableForm.$waiting">
+          <em class="fa fa-floppy-o"></em>
+        </button>
+ 
+        <button type="button" class="btn btn-md btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+          <em class="fa fa-ban"></em>
+        </button>
+      </span>
+       <button ng-disabled="!personalInfo.createdAt" ng-show="!editableForm.$visible" type="button" class="btn btn-md btn-info" print-btn>
+          <em class="fa fa-print"></em>
+        </button>
+        <input ng-disabled="!personalInfo.createdAt" class="btn btn-md btn-primary" type="submit" wz-next value="Continue &rarr;" />
+    
+
+  </span></h3> </span>
+   
+   <div class="alert alert-danger" ng-show="applicationErrorMsg">
+    <strong>Wait your not done!</strong> {{applicationErrorMsg}}.
+  </div>
+  <div class="alert alert-info" ng-show="applicationStatusMsg">
+    <strong>Great!</strong> {{applicationStatusMsg}}.
+  </div>
+  </div>
+
+<div class="container-fluid" print-section>
+   <div print-only>
+   <h3 class="text-center">
+<img src="img/logo.jpg" width="10%;">
+     INTEGRATED POLYTECHNIC REGIONAL CENTER –
+EAST<br>
+<small>NGOMA DISTRICT
+P.O.BOX 35KIBUNGO, RWANDA <br>
+(+250)0788 835 319
+<strong> | </strong> infos@iprceast.ac.rw
+<strong> | </strong> www.iprceast.ac.rw</small></h3><hr>
+<h4 class="text-center">PRIVATE STUDENT APPLICATION FORM</h4>
+
+   
+   <hr>
+   <h4>{{personalInfo.lastname | uppercase}}, {{personalInfo.firstname}} 
+       <span style="float:right;">Created: {{personalInfo.createdAt | date}}</span></h4>
+       <ul class="list-group" ng-repeat="item in personalInfo.choice">
+         <li><strong>Option(s):</strong> {{item.OPTION}}  |  {{item.DEPARTMENT}}</li>
+       </ul>
+    </div>
+  <div class="panel panel-success">
+
+    <div class="panel-heading"  print-remove>
+
+      <div><strong>SECTION 1:</strong> Contact Information </div>
+
+    </div>
+
+    <div class="panel-body">
+
+      <div class="col-xs-3">
+        <h4>Other Names:</h4><span editable-text="personalInfo.other">{{ personalInfo.other || 'incomplete' }}</span></div>
+      <div class="form-group col-xs-4">
+        <h4>Telephone #:<em class="fa fa-asterisk red"  print-remove></em></h4><span e-ui-mask="(999) 999-9999" editable-tel="personalInfo.tel"  e-required >{{ personalInfo.tel  || 'incomplete' }}</span>        </div>
+      <div class="col-xs-2">
+        <h4>Village:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-text="personalInfo.address" e-style="width: 200%" e-required e-uib-typeahead="address as address.Village + ' in (' + address.District + ',' + address.Sector + ',' + address.Cellule + ')' for address in rwandaData | filter: {Village: $viewValue} | orderBy: Code_Vill | limitTo:20"
+          e-required>
+
+    {{ personalInfo.address.Village || 'None Selected' }}  </span>
+
+      </div>
+
+     </div>
+  </div>
+
+  <div class="panel panel-success"  print-remove>
+    <div class="panel-heading" ><strong>SECTION 2:</strong> Study Choices <em class="fa fa-asterisk red"></em> <small>You must choose at least <strong>ONE</strong> trade.</small></div>
+    <div class="panel-body" style="padding-left: 5%">
+
+      <span class="help-block" ng-show="editableForm.$visible"> Drag at least <strong>ONE</strong> trade to the <strong>CHOICE</strong> column. Then put in order of importance.</span>
+    <div class="moveBlock">
+      <div class="moveWindow" sv-root >
+
+            <div class="col-xs-6" sv-part="personalInfo.deptOption" style="border-right: 1px solid black;" ng-show="editableForm.$visible">
+          <label>Trades</label>
+          <div class="bordered" ng-repeat="item in personalInfo.deptOption" sv-element="{containment:'.moveWindow'}">
+            <div class="btn btn-xs btn-default" >{{item.OPTION}} [{{item.DEPARTMENT}}]</div>
+            </div>
+          </div>
+
+        <div class=" col-xs-6" sv-part="personalInfo.choice">
+          <label>Your Trade Choice(s)</label>
+          <div class="bordered" ng-repeat="item in personalInfo.choice" sv-element="{containment:'.moveWindow'}">
+            <div class="btn btn-xs btn-primary">{{item.DEPARTMENT}} {{item.OPTION}} <span class="badge">{{personalInfo.choice.indexOf(item)+1}}</span></div>
+          </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="panel panel-success">
+    <div class="panel-heading"  print-remove>
+      <div><strong>SECTION 3:</strong> Personal Information </div>
+    </div>
+    <div class="panel-body">
+
+      <div class="col-xs-6">
+        <h4>Gender:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-radiolist="personalInfo.gender" e-ng-options="s.value as s.text for s in genders" e-required>
+    {{ showGender() }}</span></div>
+      <div class="col-xs-6">
+        <h4>Marital Status:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-radiolist="personalInfo.maritalStatus" e-ng-options="s.value as s.text for s in mStatuses"
+          e-required>
+    {{ showStatus() }}
+  </span>
+      </div>
+
+      <hr>
+
+      <div class="col-xs-6">
+        <h4>Nationality:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-text="personalInfo.nationality" e-required e-uib-typeahead="country.name for country in countries | filter:$viewValue | limitTo:8"
+          e-required>
+    {{ personalInfo.nationality || 'None Selected' }} </span>
+      </div>
+      <div class="col-xs-3">
+        <h4>ID/Passport #:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-text="personalInfo.id" e-required>{{ personalInfo.issued || 'incomplete' }}</span>
+      </div>
+      <div class="col-xs-3">
+        <h4>Issued at:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-text="personalInfo.issued" e-required>{{ personalInfo.issued || 'incomplete' }}</span>
+      </div>
+      <div class="col-xs-6">
+        <h4>Place of Birth:<em class="fa fa-asterisk red"  print-remove></em></h4><span editable-text="personalInfo.POB" e-required>{{ personalInfo.POB || 'incomplete' }}</span></div>
+
+      <div class="col-xs-6">
+        <h4>Date of Birth:<em class="fa fa-asterisk red"  print-remove></em></h4>
+        <span editable-date="personalInfo.DOB"  e-date-format e-required>
+    {{ (personalInfo.DOB | date: "MM-dd-yyyy") || 'incomplete' }}
+  </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="panel panel-success" style="page-break-after:always;">
+    <div class="panel-heading"  print-remove><strong>SECTION 4:</strong> Parents and Gardians</div>
+    <div class="panel-body">
+
+      <div class="col-xs-4">
+        <h4>Father's Name:<em class="fa fa-asterisk red"  print-remove></em></h4> <span editable-text="personalInfo.father.name" e-required>{{ personalInfo.father.name || 'incomplete' }}</span></div>
+      <div class="col-xs-4">
+        <h4>Father's Telephone:<em class="fa fa-asterisk red"  print-remove></em></h4> <span editable-tel="personalInfo.father.number" e-ui-mask="(999) 999-9999" e-required>{{ personalInfo.father.number || 'incomplete' }}</span></div>
+      <div class="col-xs-4">
+        <h4>Father's ID/PASSPORT #:<em class="fa fa-asterisk red"  print-remove></em></h4> <span editable-number="personalInfo.father.id" e-required>{{ personalInfo.father.id || 'incomplete' }}</span></div>
+
+      <div class="col-xs-4">
+        <h4>Mother's Name:<em class="fa fa-asterisk red"  print-remove></em></h4> <span editable-text="personalInfo.mother.name" e-required>{{ personalInfo.mother.name || 'incomplete' }}</span></div>
+      <div class="col-xs-4">
+        <h4>Mother's Telephone:<em class="fa fa-asterisk red"  print-remove></em></h4> <span editable-tel="personalInfo.mother.number" e-ui-mask="(999) 999-9999" e-required>{{ personalInfo.mother.number || 'incomplete' }}</span></div>
+      <div class="col-xs-4">
+        <h4>Mother's ID/PASSPORT #:<em class="fa fa-asterisk red"  print-remove></em></h4> <span editable-number="personalInfo.mother.id" e-required>{{ personalInfo.mother.id || 'incomplete' }}</span></div>
+
+      <div class="col-xs-4">
+        <h4>Guardian's' Name: </h4><span editable-text="personalInfo.guardian.name">{{ personalInfo.guardian.name || 'incomplete' }}</span></div>
+      <div class="col-xs-4">
+        <h4>Guardian's' Telephone:</h4> <span editable-tel="personalInfo.guardian.number" e-ui-mask="(999) 999-9999">{{ personalInfo.guardian.number || 'incomplete' }}</span></div>
+      <div class="col-xs-4">
+        <h4>Guardian's' ID/PASSPORT #:</h4> <span editable-text="personalInfo.guardian.id">{{ personalInfo.guardian.id || 'incomplete' }}</span></div>
+
+    </div>
+
+  </div>
+<div print-only><h4>{{personalInfo.lastname | uppercase}}, {{personalInfo.firstname}}<span style="float:right"> Page 2 </span></h4></div>
+  <div class="panel panel-success" >
+    <div class="panel-heading"  print-remove><strong>SECTION 5:</strong> Academic History. <em class="fa fa-asterisk red"></em><small>You must enter at least <strong>ONE</strong> pervious school</small></div>
+    <div class="panel-body" style="padding: 2%">
+      <caption print-only>Last School(s) Attended</caption>
+      <table class="table table-striped table-bordered table-list">
+
+        <thead>
+          <tr>
+            <th>School Name</th>
+            <th>Department</th>
+            <th>Grade</th>
+            <th>Aggregate</th>
+            <th>Exam Authority</th>
+            <th print-remove><em class="fa fa-cog"></em></th>
+          </tr>
+        </thead>
+        <tr ng-repeat="academic in personalInfo.academics">
+          <td>
+            <!-- editable username (text with validation) -->
+            <span editable-text="academic.name" e-name="name" e-form="rowform">
+          {{ academic.name || 'empty' }}
+        </span>
+          </td>
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-text="academic.dept" e-name="dept" e-form="rowform">
+          {{ academic.dept || 'empty' }}
+        </span>
+          </td>
+
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-text="academic.grade" e-name="grade" e-form="rowform">
+          {{ academic.grade || 'empty' }}
+        </span>
+          </td>
+
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-text="academic.aggregate" e-name="aggregate" e-form="rowform">
+          {{ academic.aggregate || 'empty' }}
+        </span>
+          </td>
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-text="academic.examAuth" e-name="examAuth" e-form="rowform">
+          {{ academic.examAuth|| 'empty' }}
+        </span>
+          </td>
+          <td style="white-space: nowrap" print-remove>
+
+
+            <div  class="buttons" ng-show="!rowform.$visible">
+
+              <button type="button" class="btn btn-sm btn-danger" ng-click="removeAcademic($index)"><i class="fa fa-trash" ></i></button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <button type="button" ng-show="editableForm.$visible" class="btn btn-default" ng-click="addAcademics()">Add Institution</button>
+    </div>
+  </div>
+
+  <div class="panel panel-success" >
+    <div class="panel-heading"  print-remove><strong>SECTION 6:</strong> Work Experience</div>
+    <div class="panel-body" style="padding: 2%">
+      <caption print-only>Previous Work Experience</caption>
+      <table class="table table-striped table-bordered table-list">
+        
+        <thead>
+          <tr>
+            <th>Organization</th>
+            <th>Nature of Job</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th print-remove><em class="fa fa-cog"></em></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="org in personalInfo.orgs">
+            <td>
+              <!-- editable username (text with validation) -->
+              <span editable-text="org.name" e-name="name" e-form="rowform" e-required>
+          {{ org.name || 'empty' }}
+        </span>
+            </td>
+            <td>
+              <!-- editable status (select-local) -->
+              <span editable-text="org.description" e-name="description" e-form="rowform" e-required>
+          {{ org.description || 'empty' }}
+        </span>
+            </td>
+
+
+
+            <td>
+              <span editable-date="org.start" e-date-format  e-required>
+          {{ (org.start  | date: "MM-dd-yyyy") || 'incomplete' }}
+        </span>
+            </td>
+              <td>
+              <span editable-date="org.end" e-date-format e-required>
+          {{ (org.end  | date: "MM-dd-yyyy") || 'incomplete' }} 
+        </span>
+            </td>
+
+            <td style="white-space: nowrap" print-remove>
+              <!-- form -->
+
+              <div class="buttons" ng-show="!rowform.$visible">
+
+                <button type="button" class="btn btn-sm btn-danger" ng-click="removeOrg($index)"><i class="fa fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button type="button" ng-show="editableForm.$visible" class="btn btn-default" ng-click="addOrg()">Add Job</button>
+    </div>
+  </div>
+
+
+  <div class="panel panel-success" >
+    <div class="panel-heading"  print-remove><strong>SECTION 7:</strong>Refferees:  <em class="fa fa-asterisk red"></em> <small>You must enter at least <strong>TWO</strong> Refferees</small> </div>
+    <div class="panel-body" style="padding: 2%">
+        <caption print-only>Refferees</caption>
+      <table class="table table-striped table-bordered table-list">
+      
+        <thead class="inverse">
+          <tr>
+
+            <th>Name</th>
+            <th>Occupation</th>
+
+            <th>Telephone</th>
+            <th>Email</th>
+            <th print-remove><em class="fa fa-cog"></em></th>
+
+          </tr>
+        </thead>
+        <tr ng-repeat="ref in personalInfo.refs">
+          <td>
+            <!-- editable username (text with validation) -->
+            <span editable-text="ref.name" e-name="name" e-form="rowform">
+          {{ ref.name || 'empty' }}
+        </span>
+          </td>
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-text="ref.occupation" e-name="occupation" e-form="rowform">
+          {{ ref.occupation || 'empty' }}
+        </span>
+          </td>
+
+
+
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-tel="ref.tel" e-name="tel" e-ui-mask="(999) 999-9999" e-form="rowform">
+          {{ ref.tel || 'empty' }}
+        </span>
+          </td>
+
+          <td>
+            <!-- editable status (select-local) -->
+            <span editable-email="ref.email" e-name="email" e-form="rowform">
+          {{ ref.email || 'empty' }}
+        </span>
+          </td>
+
+          <td style="white-space: nowrap" print-remove>
+            <!-- form -->
+
+            <div class="buttons" ng-show="!rowform.$visible">
+
+              <button type="button" class="btn btn-sm btn-danger" ng-click="removeRef($index)"><i class="fa fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <button  ng-show="editableForm.$visible" type="button" class="btn btn-default" ng-click="addRef()">Add Refferee</button>
+    </div>
+  </div>
+  <div print-only>
+<p> I confirm that the information I have provided on this application form is (to the best of my knowledge) true,
+accurate, current and complete; and I agree to notify the College promptly if any information contained on
+this application form should change, in order to keep it true accurate, current and complete.
+<br><br>I confirm that all supporting work submitted as part of this application is entirely my own
+originalwork, except where clearly indicated otherwise, and does not include any plagiarized elements.
+<br><br>I understand that if I become a registered student, any personal data collected by the University as a result
+of my application will form part of my student record</p>
+
+<span>Please sign below to confirm acceptance of these statements:</span>
+<h4>{{personalInfo.lastname | uppercase}}, {{personalInfo.firstname}} 
+       <span style="float:right;">{{today | date}}</span></h4>
+<div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">SIGNATURE:</span>
+  <input type="text" class="form-control" placeholder="YOUR SIGNATURE" aria-describedby="sizing-addon2">
+</div>
+  </div>
+</div>
+  </form>
+ </wz-step>
+
+    <wz-step wz-title="Files">
+    <div class="container-fluid">
+         <span class="help-block"><h3>Upload your Documents. Required are marked<em class="fa fa-asterisk red"></em>. 
+                    <span style="float:right; padding-bottom:10px;">      
+        <input class="btn btn-md btn-primary" type="submit"  ng-click="checkFiles()"  wz-next value="Continue &rarr;" />
+
+  </span></h3> </span></div>
+  
+
+ <div  class="container-fluid">
+     <div class="panel panel-success" style="border:none;">
+
+    <div class="panel-body">
+      <div class="col-xs-6 col-xs-offset-1">
+      <em class="help-block">Maximum file size is 5MB</em>
+       <div class="alert alert-danger" ng-show="fileUploadMsg">
+  <strong>Hold on!</strong> {{fileUploadMsg}}
+</div></div>
+    </div>
+  <ul class="list-group" ng-repeat="doc in personalInfo.docs">
+  <li class="list-group-item onlybottom">
+    <span class="icon">
+
+         <button type="button" class="btn btn-sm btn-default" ngf-select="upload($files, doc.name, $index)" ngf-multiple="true" ng-if="!doc.url">
+        <em class="fa fa-arrow-up"></em>
+      </button>
+            <!-- buttons to submit / cancel form -->
+            <span ng-if="doc.url">
+
+               <a  class="btn btn-sm btn-success" type="button" href="http://localhost/{{doc.url}}"> <em class="fa fa-eye"></em></a>
+         
+        <button type="button" class="btn btn-sm btn-warning" ng-click="removeFile($index, doc.name)">
+          <em class="fa fa-undo"></em>
+        </button></span>
+     
+    </span>
+    
+    <h4><em class="fa fa-asterisk red" ng-if="doc.name === 'Coloured passport size photo'"></em>  {{doc.name}} <span ng-class="{'label label-primary': doc.url, 'label label-default': !doc.url}">{{doc.progress || 'Not Added'}}</span></h4>
+  </li>
+</ul>
+ </div>
+
+ </div>
+
+    </wz-step>
+
+
+    <wz-step wz-title="Submit">
+ <div class="container-fluid">
+         <span class="help-block"><h3>Pay and Submit
+                    <span style="float:right; padding-bottom:10px;">      
+         <input class="btn btn-md btn-primary" type="submit" ng-disabled="personalInfo.status < 3" ng-click="addApplication()" wz-next value="Submit Application" />
+
+  </span></h3> </span></div>
+
+      
+       
+        <div class="container-fluid">
+
+            <div class="panel panel-success" style="border:none;">
+
+ <div class="panel-body">
+  
+    <h5 class="text-center">Use the generated number below to add to your payslip at Bank of Kigali. Once your payment has been verified you will
+        be able to submit your application for review.</h5>
+
+    
+            <h4 class="text-center">Please add the number below to your payslip</h4>
+<h1 class="text-center"><mark> {{personalInfo.uuid}} </mark></h1>
+<p class="text-center">The Application fee is 5000 Rfw. </p>
+<div class="col-lg-8 col-lg-offset-2">
+ <table class="table table-striped table-bordered table-list">
+      <thead>
+        <tr>
+          
+          <th>Date</th>
+         
+          
+          <th>Code</th>
+        
+          <th>Description</th>
+         
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tfoot>
+      <td>--</td>
+      <td>--</td>
+      <th>Balance</th>
+      <th>{{balance | currency: 'Rwf '}}</th>
+      </tfoot>
+
+      <tbody>
+        <tr ng-repeat="pay in payments">
+          
+          <td>{{pay.dco | date}}</td>
+         
+          <td>{{pay.eve}}</td>
+         
+          <td>{{pay.lib}}</td>
+         
+          <td>{{pay.credit}}</td>
+
+        </tr>
+      </tbody>
+    </table>
+</div>     
+  </div>
+
+
+  </div></div>
+    </wz-step>
+</wizard>
